@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<title>log look</title> 
+</head> 
+
+<script language="javascript"> 
+
+var xmlHttp; 
+var flag=0;
+var id;
+
+function createXMLHttpRequest(){ 
+if(window.ActiveXObject){ 
+xmlHttp = new ActiveXObject("microsoft.XMLHTTP"); 
+} 
+else if(window.XMLHttpRequest){ 
+xmlHttp = new XMLHttpRequest(); 
+} 
+
+} 
+
+function sendRequest(){ 
+
+createXMLHttpRequest(); 
+
+var filename = document.getElementById("choose").value;
+var rownum = document.getElementById("textfield").value; 
+url = "String_check_new.php?project="+filename+"&num="+rownum;
+xmlHttp.onreadystatechange = callback; 
+xmlHttp.open('GET',url,true); 
+xmlHttp.send(null); 
+} 
+
+function callback(){ 
+if(xmlHttp.readyState == 4){ 
+if(xmlHttp.status == 200){ 
+var str1=xmlHttp.responseText;
+ch = new Array;
+ch=str1.split("||||||");
+document.getElementById("textarea").value+=ch[0]; 
+document.getElementById("textfield").value=ch[1];
+} 
+} 
+}
+function runbyrun(){
+if (document.getElementById("button").value=="start"){
+    document.getElementById("button").value="stop";
+	id=window.setInterval(sendRequest,3000); 
+	}
+	else
+	{
+	 document.getElementById("button").value="start";
+	 window.clearInterval(id);
+	 
+	}
+}
+
+    
+   	function clean_textfield() {
+     document.getElementById("textarea").value= "";
+    }	
+
+</script> 
+
+  <p>
+    <label for="choose"></label>
+    <label>log file name</label> <select name="choose" id="choose" >
+      <option>pre_front</option>
+      <option>pre_cmt</option>
+      <option>pre_trade</option>
+    </select>
+    <input type="submit" name="button" id="button" value="start" onclick="runbyrun();">
+	</input>
+	<label>rows</label> <input type="text" name="textfield" value=0 id="textfield"></input>
+    <input type="submit" name="clean" id="clean" value="ÇåÆÁ" onclick="clean_textfield();">
+  </p>
+  <p>
+    <label for="textarea"></label>
+    <textarea name="textarea" id="textarea"  cols="170" rows="80">
+    </textarea>
+  </p>

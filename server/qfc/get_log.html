@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=gbk"/>
+	<meta name="author" content="blog.anchen8.net" />
+
+	<title>test</title>
+</head>
+<script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script> 
+
+<script language="javascript">
+var url_strs;
+
+function createXMLHttpRequest(){ 
+          if(window.ActiveXObject){ 
+             return new ActiveXObject("microsoft.XMLHTTP"); 
+            } 
+          else if(window.XMLHttpRequest){  
+             return new XMLHttpRequest(); 
+             } 
+
+      } 
+
+function sendRequest(project,start_time,end_time){ 
+        var xmlHttp=createXMLHttpRequest(); 
+        var  urls = "get_log.php?project="+project+"&start_time="+start_time+"&end_time="+end_time;
+        xmlHttp.onreadystatechange = function() {
+                  if(xmlHttp.readyState == 4){ 
+                 if(xmlHttp.status == 200){ 
+                 var str1=xmlHttp.responseText;
+                 document.getElementById("log_content").value+=str1;
+                   
+                } 
+         }
+        }  
+        xmlHttp.open('GET',urls,true); 
+        xmlHttp.send(null);
+        
+      
+  } 
+
+function  get_textarea_value()
+{
+      project=document.getElementById("choose").value;
+      start_time=document.getElementById("d11").value;
+      end_time=document.getElementById("d12").value;
+    
+        diff=end_time - start_time;
+        
+        if (start_time >= end_time)
+        {
+            alert("选择的开始时间大于或等于结束时间,请再重新选择！");
+           // document.getElementById("log_content").value+=project+start_time+end_time+"|"+diff;
+        }
+        else if (diff > 1000 )
+        {
+            alert("选择的时间跨度太大,请重新选择！");
+            //document.getElementById("log_content").value+=project+start_time+end_time+"|"+diff;
+        }
+       else 
+       {
+         //document.getElementById("log_content").value+=project+start_time+end_time+"|"+diff;
+          sendRequest(project,start_time,end_time);
+       }
+  
+               
+         sendRequest(project,start_time,end_time);
+
+      
+}
+
+function clean_textarea()
+{
+    document.getElementById("log_content").value="";
+}
+
+
+</script>
+
+<body>
+<label>选择工程:</label> <select name="choose" id="choose">
+      <option>pre_cmt</option>
+      <option>pre_front</option>
+      <option>pre_trade</option>
+</select>
+
+<label>开始时间</label>
+<input id="d11" type="text" onClick="WdatePicker({dateFmt:'yyyyMMddHHmm',maxDate:'%y-%M-%d'})"/> 
+<label>结束时间</label>
+<input id="d12" type="text" onClick="WdatePicker({dateFmt:'yyyyMMddHHmm',maxDate:'%y-%M-%d'})"/>
+<input type="submit" name="button" id="button" value="search" onclick="get_textarea_value();" >
+<input type="submit" name="clean" id="clean" value="清屏" onclick="clean_textarea();" ></input>
+<p><textarea id="log_content" name="textarea" id="textarea"  cols="180" rows="80"  ></textarea></p>
+
+</body>
+</html>

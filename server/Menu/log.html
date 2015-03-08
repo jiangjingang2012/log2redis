@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+<title>log look</title> 
+</head> 
+
+<script language="javascript"> 
+
+var xmlHttp; 
+var flag=0;
+var id;
+
+function createXMLHttpRequest(){ 
+if(window.ActiveXObject){ 
+xmlHttp = new ActiveXObject("microsoft.XMLHTTP"); 
+} 
+else if(window.XMLHttpRequest){ 
+xmlHttp = new XMLHttpRequest(); 
+} 
+
+} 
+
+function sendRequest(){ 
+
+createXMLHttpRequest(); 
+
+var filename = document.getElementById("choose").value;
+var rownum = document.getElementById("textfield").value; 
+url = "String_check.php?filename="+filename+"&flag="+rownum;
+xmlHttp.onreadystatechange = callback; 
+xmlHttp.open('GET',url,true); 
+xmlHttp.send(null); 
+} 
+
+function callback(){ 
+if(xmlHttp.readyState == 4){ 
+if(xmlHttp.status == 200){ 
+var str1=xmlHttp.responseText;
+ch = new Array;
+ch=str1.split("||||||");
+document.getElementById("textarea").value+=ch[0]; 
+document.getElementById("textfield").value=ch[1];
+} 
+} 
+}
+function runbyrun(){
+if (document.getElementById("button").value=="start"){
+    document.getElementById("button").value="stop";
+	id=window.setInterval(sendRequest,3000); 
+	}
+	else
+	{
+	 document.getElementById("button").value="start";
+	 window.clearInterval(id);
+	 
+	}
+}
+
+	
+	function kkk() {
+	    window.setInterval(tip,1000);
+	  }
+	function tip() {
+     document.getElementById("textarea").value+= "12222\r";
+    }	
+
+</script> 
+
+  <p>
+    <label for="choose"></label>
+    <label>log file name</label> <select name="choose" id="choose" >
+      <option>jvm_s8000</option>
+      <option>jvm_s8100</option>
+      <option>jvm_s8400</option>
+    </select>
+    <input type="submit" name="button" id="button" value="start" onclick="runbyrun();">
+	</input>
+	<label>rows</label> <input type="text" name="textfield" value=0 id="textfield"></input>
+  </p>
+  <p>
+    <label for="textarea"></label>
+    <textarea name="textarea" id="textarea"  cols="300" rows="200">
+    </textarea>
+  </p>

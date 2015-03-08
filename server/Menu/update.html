@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>update_war</title>
+</head>
+
+<script language="javascript">
+var url_strs;
+
+function createXHR() {
+    if (window.XMLHttpRequest) {
+        return new XMLHttpRequest();
+    }
+    if (window.ActiveXObject) {
+        var msxmls = ['MSXML3', 'MSXML2', 'Microsoft']
+        for (var i=0; i < msxmls.length; i++) {
+            try {
+                return new ActiveXObject(msxmls[i]+'.XMLHTTP')
+            } catch (e) { }
+        }
+        throw new Error("No XML component installed!")
+    }
+}
+
+function refreshComment() {
+    var xmlhttp = createXHR();
+    var xmlhttpUrl = "update.php?war_url=lllll&"+Math.random();
+    xmlhttp.open("GET", xmlhttpUrl, true);
+    xmlhttp.send(null);
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4) {
+            if (xmlhttp.status == 200) {
+//                alert("xmlhttp.status = " + xmlhttp.status);
+//                alert("xmlhttp.readyState = " + xmlhttp.readyState);
+                 document.getElementById("urls").value+=xmlhttp.responseText;
+            }
+        }
+    }
+
+}
+
+function createXMLHttpRequest(){ 
+        // var xmlHttp;
+          if(window.ActiveXObject){ 
+             return new ActiveXObject("microsoft.XMLHTTP"); 
+            } 
+          else if(window.XMLHttpRequest){  
+             return new XMLHttpRequest(); 
+             } 
+
+      } 
+
+function sendRequest(urls){ 
+        var xmlHttp=createXMLHttpRequest(); 
+        var  urls = "update.php?war_urls="+urls;
+        
+        xmlHttp.onreadystatechange = function() {
+                  if(xmlHttp.readyState == 4){ 
+                 if(xmlHttp.status == 200){ 
+                 var str1=xmlHttp.responseText;
+                 document.getElementById("urls_ss").value+=str1;
+                // url_strs=str1;
+              //   xmlHttp=null; 
+                   
+                } 
+         }
+        }  
+        xmlHttp.open('GET',urls,true); 
+        xmlHttp.send(null);
+        
+      
+  } 
+
+function  get_textarea_value()
+{
+    ch = new Array;
+   //war_urls=document.getElementById("urls").value.replace(/\n/g,"|");
+     war_urls=document.getElementById("urls").value;
+     ch=war_urls.split("\n");
+    
+    var num=ch.length;
+     for( key in ch )
+      {
+       // document.getElementById("urls_ss").value+="正在下载"+ch[key]+"......"
+        sendRequest(ch[key]);
+      }
+     //refreshComment();
+    //  sendRequest("http://code.corp.ctcn.com.cn/nexus/content/sites/SiteReleases/qfc/cn/fxapi/1.6.3/fxapi-1.6.3.war1");
+     // sendRequest("http://code.corp.ctcn.com.cn/nexus/content/sites/SiteReleases/qfc/mkt/fzjg/3.0.5/fzjg-3.0.5.war");
+     // document.getElementById("urls_ss").value+=war_urls;
+     // window.setTimeout(sendRequest,1000); 
+     //   sleep(3000);
+   //   sendRequest();
+ //     document.getElementById("urls_ss").value+=url_strs;
+      
+}
+
+function sleep(d){
+  for(var t = Date.now();Date.now() - t <= d;);
+}
+
+
+</script>
+
+<body>
+<p ><label>war包url路径:</label><textarea id="urls" cols="100" rows="10" wrap="virtual" maxlength="1000"></textarea></p>
+<p ><label>war包下载状态:</label><textarea  id="urls_ss" cols="100" rows="10" wrap="virtual" maxlength="1000"></textarea></p>
+<p><input type="button" name="button" value="提交" onclick="get_textarea_value();" />
+</p>
+
+</body>
+</html>
