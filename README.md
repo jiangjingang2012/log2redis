@@ -15,12 +15,6 @@ log2redis 里面有2个文件夹，一个是server,一个是agent;server用于�
 
 在agent端只要有4个文件
 
-[newqfc@qfc-pre-133v log2redis]$ ll
-总计 16
--rwxr-xr-x 1 root root 871 03-06 08:42 app.pl
--rw-r--r-- 1 root root 210 03-06 08:42 config.ini
--rwxr-xr-x 1 root root 975 03-06 08:42 count_snap.pl
--rwxr-xr-x 1 root root 708 03-06 08:42 get_log.pl
 congig.ini 文件是配置文件，用来配置redis服务器和要抓取工程的文件
 app.pl 是个主程序文件
 count_snap.pl: 时间计数快照程序,用来做时间点的快照
