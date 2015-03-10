@@ -10,12 +10,10 @@ log2redis就是部署在各个服务器里的agent来实时抓取日志存入red
 一些主要文件结构简介：
 
 log2redis 里面有2个文件夹，一个是server,一个是agent;server用于部署服务端,agent用于部署到各个服务器，来抓取日志。
-
 在server端没什么东西，部署一个web服务端就ok了，然后在php里面把redis服务地址改下就行了。
 
 在agent端只要有4个文件
-
-congig.ini 文件是配置文件，用来配置redis服务器和要抓取工程的文件
-app.pl 是个主程序文件
-count_snap.pl: 时间计数快照程序,用来做时间点的快照
-get_log.pl :抓取日志程序
+congig.ini 文件是配置文件，用来配置redis服务器和要抓取工程的文件 
+app.pl 是个主程序文件 
+count_snap.pl: 时间计数快照程序,用来做时间点的快照 
+get_log.pl :抓取日志程序 
